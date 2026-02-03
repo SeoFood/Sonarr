@@ -47,6 +47,9 @@ import QualityProfileSelectInput, {
 import RootFolderSelectInput, {
   RootFolderSelectInputProps,
 } from './Select/RootFolderSelectInput';
+import SeasonTypeSelectInput, {
+  SeasonTypeSelectInputProps,
+} from './Select/SeasonTypeSelectInput';
 import SeriesTypeSelectInput, {
   SeriesTypeSelectInputProps,
 } from './Select/SeriesTypeSelectInput';
@@ -81,6 +84,7 @@ const componentMap: Record<InputType, ElementType> = {
   path: PathInput,
   qualityProfileSelect: QualityProfileSelectInput,
   rootFolderSelect: RootFolderSelectInput,
+  seasonTypeSelect: SeasonTypeSelectInput,
   select: EnhancedSelectInput,
   seriesTag: SeriesTagInput,
   seriesTypeSelect: SeriesTypeSelectInput,
@@ -138,6 +142,8 @@ type PickProps<V, C extends InputType> = C extends 'text'
   ? QualityProfileSelectInputProps
   : C extends 'rootFolderSelect'
   ? RootFolderSelectInputProps
+  : C extends 'seasonTypeSelect'
+  ? SeasonTypeSelectInputProps
   : C extends 'select'
   ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
     EnhancedSelectInputProps<any, V>

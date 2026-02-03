@@ -1,0 +1,44 @@
+using NzbDrone.Core.Tv;
+
+namespace Sonarr.Api.V5.Series
+{
+    public class SeasonTypeResource
+    {
+        public string? Name { get; set; }
+        public string? Type { get; set; }
+        public List<int> SeasonNumbers { get; set; } = new();
+    }
+
+    public static class SeasonTypeResourceMapper
+    {
+        public static SeasonTypeResource ToResource(this SeasonType model)
+        {
+            return new SeasonTypeResource
+            {
+                Name = model.Name,
+                Type = model.Type,
+                SeasonNumbers = model.SeasonNumbers
+            };
+        }
+
+        public static SeasonType ToModel(this SeasonTypeResource resource)
+        {
+            return new SeasonType
+            {
+                Name = resource.Name,
+                Type = resource.Type,
+                SeasonNumbers = resource.SeasonNumbers
+            };
+        }
+
+        public static List<SeasonTypeResource> ToResource(this IEnumerable<SeasonType> models)
+        {
+            return models.Select(ToResource).ToList();
+        }
+
+        public static List<SeasonType> ToModel(this IEnumerable<SeasonTypeResource> resources)
+        {
+            return resources.Select(ToModel).ToList();
+        }
+    }
+}

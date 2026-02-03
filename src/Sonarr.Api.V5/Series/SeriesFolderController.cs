@@ -28,6 +28,7 @@ public class SeriesFolderController : Controller
 
         return TypedResults.Ok(new SeriesFolderResource
         {
+            Language = series.Language,
             Folder = folder
         });
     }

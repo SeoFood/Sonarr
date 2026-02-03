@@ -53,6 +53,7 @@ function EditSeriesModalContent({
     seasonFolder,
     qualityProfileId,
     seriesType,
+    language,
     path,
     tags,
     rootFolderPath: initialRootFolderPath,
@@ -80,6 +81,7 @@ function EditSeriesModalContent({
         seasonFolder,
         qualityProfileId,
         seriesType,
+        language,
         path,
         tags,
       },
@@ -92,6 +94,7 @@ function EditSeriesModalContent({
     seasonFolder,
     qualityProfileId,
     seriesType,
+    language,
     path,
     tags,
     pendingChanges,
@@ -233,6 +236,18 @@ function EditSeriesModalContent({
               type={inputTypes.SERIES_TYPE_SELECT}
               name="seriesType"
               {...settings.seriesType}
+              onChange={handleInputChange}
+            />
+          </FormRow>
+
+          <FormRow size={sizes.MEDIUM}>
+            <FormLabel>{translate('Language')}</FormLabel>
+
+            <FormInputHelpText text={translate('SeriesLanguageHelpText')} />
+            <FormInput
+              type={inputTypes.LANGUAGE_SELECT}
+              name="language"
+              {...settings.language}
               onChange={handleInputChange}
             />
           </FormRow>

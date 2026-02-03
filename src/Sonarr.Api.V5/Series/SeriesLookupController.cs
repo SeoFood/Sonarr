@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using NzbDrone.Core.ImportLists.Exclusions;
+using NzbDrone.Core.Languages;
 using NzbDrone.Core.MediaCover;
 using NzbDrone.Core.MetadataSource;
 using NzbDrone.Core.Organizer;
@@ -27,9 +28,9 @@ public class SeriesLookupController : Controller
     }
 
     [HttpGet]
-    public Ok<IEnumerable<SeriesResource>> Search([FromQuery] string term)
+    public Ok<IEnumerable<SeriesResource>> Search([FromQuery] string term, [FromQuery] int language = 1)
     {
-        var tvDbResults = _searchProxy.SearchForNewSeries(term);
+        var tvDbResults = _searchProxy.SearchForNewSeries(term, (Language)language);
         return TypedResults.Ok(MapToResource(tvDbResults));
     }
 
@@ -49,8 +50,18 @@ public class SeriesLookupController : Controller
             }
 
             resource.Folder = _fileNameBuilder.GetSeriesFolder(currentSeries);
+            resource.Folders = new List<SeriesFolderResource>();
             resource.Statistics = new SeriesStatistics().ToResource(resource.Seasons);
             resource.IsExcluded = _importListExclusionService.FindByTvdbId(currentSeries.TvdbId) is not null;
+
+            foreach (var translation in currentSeries.Translations)
+            {
+                resource.Folders.Add(new SeriesFolderResource
+                {
+                    Language = translation.Language,
+                    Folder = _fileNameBuilder.GetSeriesFolder(currentSeries, translation.Title)
+                });
+            }
 
             yield return resource;
         }
