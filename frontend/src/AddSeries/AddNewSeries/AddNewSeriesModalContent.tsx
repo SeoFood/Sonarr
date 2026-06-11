@@ -14,6 +14,7 @@ import FormInput from 'Components/Form/FormInput';
 import FormInputHelpText from 'Components/Form/FormInputHelpText';
 import FormLabel from 'Components/Form/FormLabel';
 import FormRow from 'Components/Form/FormRow';
+import { LanguageSelectInputOnChangeProps } from 'Components/Form/Select/LanguageSelectInput';
 import Icon from 'Components/Icon';
 import Button from 'Components/Link/Button';
 import SpinnerButton from 'Components/Link/SpinnerButton';
@@ -24,9 +25,11 @@ import ModalHeader from 'Components/Modal/ModalHeader';
 import Popover from 'Components/Tooltip/Popover';
 import { getValidationFailures } from 'Helpers/Hooks/useApiMutation';
 import { icons, inputTypes, kinds, tooltipPositions } from 'Helpers/Props';
-import Language from 'Language/Language';
+import Language, { DEFAULT_LANGUAGE } from 'Language/Language';
+import { useLanguageById } from 'Language/useLanguages';
 import { SeriesType } from 'Series/Series';
 import SeriesPoster from 'Series/SeriesPoster';
+import { useMetadataSourceSettingsValues } from 'Settings/MetadataSource/useMetadataSourceSettings';
 import { useIsWindows } from 'System/Status/useSystemStatus';
 import { InputChanged } from 'typings/inputs';
 import selectSettings from 'Utilities/selectSettings';
@@ -56,6 +59,25 @@ function AddNewSeriesModalContent({
     folders,
   } = series;
   const options = useAddSeriesOptions();
+  const { preferredMetadataLanguage } = useMetadataSourceSettingsValues();
+  const resolvedLanguage = useLanguageById(preferredMetadataLanguage);
+  const [language, setLanguage] = useState<Language>(
+    resolvedLanguage ?? DEFAULT_LANGUAGE
+  );
+
+  useEffect(() => {
+    if (resolvedLanguage) {
+      setLanguage(resolvedLanguage);
+    }
+  }, [resolvedLanguage]);
+
+  const handleLanguageChange = useCallback(
+    ({ value }: LanguageSelectInputOnChangeProps) => {
+      setLanguage(value as Language);
+    },
+    []
+  );
+
   const isSmallScreen = useAppDimension('isSmallScreen');
   const isWindows = useIsWindows();
 
@@ -81,7 +103,6 @@ function AddNewSeriesModalContent({
   );
 
   const {
-    language,
     monitor,
     qualityProfileId,
     rootFolderPath,
@@ -92,20 +113,15 @@ function AddNewSeriesModalContent({
     tags,
   } = settings;
 
-  const translation = translations.find(
-    (t) => t.language.id === language.value.id
-  );
+  const translation = translations.find((t) => t.language.id === language.id);
   const title = translation?.title ?? originalTitle;
   const overview = translation?.overview ?? originalOverview;
   const folder =
-    folders.find((f) => f.language.id === language.value.id)?.folder ??
+    folders.find((f) => f.language.id === language.id)?.folder ??
     originalFolder;
 
   const handleInputChange = useCallback(
-    ({
-      name,
-      value,
-    }: InputChanged<string | number | boolean | number[] | Language>) => {
+    ({ name, value }: InputChanged<string | number | boolean | number[]>) => {
       setAddSeriesOption(name as keyof AddSeriesOptions, value);
     },
     []
@@ -137,7 +153,7 @@ function AddNewSeriesModalContent({
       qualityProfileId: qualityProfileId.value,
       seriesType,
       seasonType,
-      language: language.value,
+      language,
       seasonFolder: seasonFolder.value,
       tags: tags.value,
     });
@@ -297,8 +313,9 @@ function AddNewSeriesModalContent({
                 <FormInput
                   type={inputTypes.LANGUAGE_SELECT}
                   name="language"
-                  {...settings.language}
-                  onChange={handleInputChange}
+                  value={language}
+                  includeAny={false}
+                  onChange={handleLanguageChange}
                 />
               </FormRow>
 
