@@ -6,7 +6,7 @@ namespace Sonarr.Api.V5.Series
     {
         public string? Name { get; set; }
         public string? Type { get; set; }
-        public List<int> SeasonNumbers { get; set; } = new();
+        public List<int> SeasonNumbers { get; set; } = [];
     }
 
     public static class SeasonTypeResourceMapper

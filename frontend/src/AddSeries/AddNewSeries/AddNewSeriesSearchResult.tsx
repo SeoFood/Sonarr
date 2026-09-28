@@ -40,7 +40,8 @@ function AddNewSeriesSearchResult({ series }: AddNewSeriesSearchResultProps) {
   const {
     tvdbId,
     titleSlug,
-    title: originalTitle,
+    title: lookupTitle,
+    originalTitle,
     year,
     network,
     originalLanguage,
@@ -48,7 +49,7 @@ function AddNewSeriesSearchResult({ series }: AddNewSeriesSearchResultProps) {
     status,
     statistics = {} as Statistics,
     ratings,
-    overview: originalOverview,
+    overview: lookupOverview,
     seriesType,
     translations,
     images,
@@ -63,8 +64,8 @@ function AddNewSeriesSearchResult({ series }: AddNewSeriesSearchResultProps) {
 
   const seasonCount = statistics.seasonCount;
   const translation = translations.find((t) => t.language.id === language?.id);
-  const title = translation?.title ?? originalTitle;
-  const overview = translation?.overview ?? originalOverview;
+  const title = translation?.title ?? originalTitle ?? lookupTitle;
+  const overview = translation?.overview ?? lookupOverview;
 
   const handlePress = useCallback(() => {
     setIsNewAddSeriesModalOpen(true);

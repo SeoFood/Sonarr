@@ -310,6 +310,7 @@ function EditSeriesModalContent({
       <RootFolderModal
         isOpen={isRootFolderModalOpen}
         seriesId={seriesId}
+        languageId={settings.language.value.id}
         rootFolderPath={rootFolderPath}
         onSavePress={handleRootFolderChange}
         onModalClose={handleRootFolderModalClose}

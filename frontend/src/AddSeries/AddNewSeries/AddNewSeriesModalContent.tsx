@@ -49,9 +49,10 @@ function AddNewSeriesModalContent({
   onModalClose,
 }: AddNewSeriesModalContentProps) {
   const {
-    title: originalTitle,
+    title: lookupTitle,
+    originalTitle,
     year,
-    overview: originalOverview,
+    overview: lookupOverview,
     images,
     seasonTypes,
     translations,
@@ -114,8 +115,8 @@ function AddNewSeriesModalContent({
   } = settings;
 
   const translation = translations.find((t) => t.language.id === language.id);
-  const title = translation?.title ?? originalTitle;
-  const overview = translation?.overview ?? originalOverview;
+  const title = translation?.title ?? originalTitle ?? lookupTitle;
+  const overview = translation?.overview ?? lookupOverview;
   const folder =
     folders.find((f) => f.language.id === language.id)?.folder ??
     originalFolder;

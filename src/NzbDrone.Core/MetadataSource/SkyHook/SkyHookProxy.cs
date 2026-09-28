@@ -266,7 +266,7 @@ namespace NzbDrone.Core.MetadataSource.SkyHook
             }
 
             series.Actors = show.Actors.Select(MapActors).ToList();
-            series.Seasons = show.Seasons.Select(MapSeason).ToList();
+            series.Seasons = show.Seasons.Select(MapSeason).DistinctBy(s => s.SeasonNumber).ToList();
             series.Images = show.Images.Select(MapImage).ToList();
             series.Monitored = true;
 

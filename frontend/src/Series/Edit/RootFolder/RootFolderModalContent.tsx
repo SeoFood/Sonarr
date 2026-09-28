@@ -20,6 +20,7 @@ export interface RootFolderUpdated {
 
 export interface RootFolderModalContentProps {
   seriesId: number;
+  languageId: number;
   rootFolderPath: string;
   onSavePress(change: RootFolderUpdated): void;
   onModalClose(): void;
@@ -30,13 +31,16 @@ interface SeriesFolder {
 }
 
 function RootFolderModalContent(props: RootFolderModalContentProps) {
-  const { seriesId, onSavePress, onModalClose } = props;
+  const { seriesId, languageId, onSavePress, onModalClose } = props;
   const isWindows = useIsWindows();
 
   const [rootFolderPath, setRootFolderPath] = useState(props.rootFolderPath);
 
   const { isLoading, data } = useApiQuery<SeriesFolder>({
     path: `/series/${seriesId}/folder`,
+    queryParams: {
+      language: languageId,
+    },
   });
 
   const onInputChange = useCallback(({ value }: InputChanged<string>) => {

@@ -33,6 +33,7 @@ public class SeriesLookupController : Controller
     }
 
     [HttpGet]
+    [Produces("application/json")]
     public Ok<IEnumerable<SeriesResource>> Search([FromQuery] string term, [FromQuery] int? language = null)
     {
         var languageId = language ?? _configService.PreferredMetadataLanguage;
@@ -63,7 +64,7 @@ public class SeriesLookupController : Controller
             }
 
             resource.Folder = _fileNameBuilder.GetSeriesFolder(currentSeries);
-            resource.Folders = new List<SeriesFolderResource>();
+            resource.Folders = [];
             resource.Statistics = new SeriesStatistics().ToResource(resource.Seasons);
             resource.IsExcluded = _importListExclusionService.FindByTvdbId(currentSeries.TvdbId) is not null;
 
