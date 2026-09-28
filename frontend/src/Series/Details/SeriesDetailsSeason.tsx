@@ -99,7 +99,7 @@ interface SeriesDetailsSeasonProps {
   monitored: boolean;
   seasonNumber: number;
   statistics?: Statistics;
-  title: string;
+  title?: string;
   isExpanded?: boolean;
   onExpandPress: (seasonNumber: number, isExpanded: boolean) => void;
 }
@@ -289,7 +289,11 @@ function SeriesDetailsSeason({
 
           <div className={styles.seasonInfo}>
             <div className={styles.seasonNumber}>{seasonNumberTitle}</div>
-            {title ? <div className={styles.seasonTitle}>{title}</div> : null}
+            {title ? (
+              <div className={styles.seasonTitle} title={title}>
+                {title}
+              </div>
+            ) : null}
           </div>
 
           <div className={styles.seasonStats}>
