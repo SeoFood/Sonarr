@@ -396,7 +396,8 @@ namespace NzbDrone.Core.MetadataSource.SkyHook
             {
                 Name = seasonType.Name,
                 Type = seasonType.Type,
-                SeasonNumbers = seasonType.SeasonNumbers
+                SeasonNumbers = seasonType.SeasonNumbers,
+                EpisodeCount = seasonType.EpisodeCount
             };
         }
 

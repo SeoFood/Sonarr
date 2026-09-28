@@ -9,6 +9,7 @@ namespace Sonarr.Api.V3.Series
         public string Name { get; set; }
         public string Type { get; set; }
         public List<int> SeasonNumbers { get; set; }
+        public int EpisodeCount { get; set; }
     }
 
     public static class SeasonTypeResourceMapper
@@ -24,7 +25,8 @@ namespace Sonarr.Api.V3.Series
             {
                 Name = model.Name,
                 Type = model.Type,
-                SeasonNumbers = model.SeasonNumbers
+                SeasonNumbers = model.SeasonNumbers,
+                EpisodeCount = model.EpisodeCount
             };
         }
 
@@ -39,7 +41,8 @@ namespace Sonarr.Api.V3.Series
             {
                 Name = resource.Name,
                 Type = resource.Type,
-                SeasonNumbers = resource.SeasonNumbers
+                SeasonNumbers = resource.SeasonNumbers,
+                EpisodeCount = resource.EpisodeCount
             };
         }
 

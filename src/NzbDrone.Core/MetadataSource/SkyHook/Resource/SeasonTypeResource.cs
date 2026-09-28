@@ -12,5 +12,6 @@ namespace NzbDrone.Core.MetadataSource.SkyHook.Resource
         public string Name { get; set; }
         public string Type { get; set; }
         public List<int> SeasonNumbers { get; set; }
+        public int EpisodeCount { get; set; }
     }
 }

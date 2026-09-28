@@ -18,6 +18,24 @@ export interface SeasonTypeSelectInputProps {
   onChange: (payload: InputChanged<string>) => void;
 }
 
+function getSeasonTypeHint(seasonCount: number, episodeCount: number) {
+  if (!episodeCount) {
+    return seasonCount === 1
+      ? translate('OneSeason')
+      : translate('CountSeasons', { count: seasonCount });
+  }
+
+  if (seasonCount === 1) {
+    return episodeCount === 1
+      ? translate('OneSeasonOneEpisode')
+      : translate('OneSeasonCountEpisodes', { episodeCount });
+  }
+
+  return episodeCount === 1
+    ? translate('CountSeasonsOneEpisode', { seasonCount })
+    : translate('CountSeasonsCountEpisodes', { seasonCount, episodeCount });
+}
+
 export default function SeasonTypeSelectInput(
   props: SeasonTypeSelectInputProps
 ) {
@@ -36,14 +54,12 @@ export default function SeasonTypeSelectInput(
         const seasonCount = seasonType.seasonNumbers.filter(
           (seasonNumber) => seasonNumber > 0
         ).length;
+        const { episodeCount } = seasonType;
 
         return {
           key: seasonType.type,
           value: seasonType.name,
-          hint:
-            seasonCount === 1
-              ? translate('OneSeason')
-              : translate('CountSeasons', { count: seasonCount }),
+          hint: getSeasonTypeHint(seasonCount, episodeCount),
         };
       }
     );

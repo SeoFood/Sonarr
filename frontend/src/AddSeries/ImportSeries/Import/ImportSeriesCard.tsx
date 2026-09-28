@@ -121,6 +121,7 @@ function ImportSeriesCard({
               type: 'official',
               name: translate('AiredOrder'),
               seasonNumbers: [],
+              episodeCount: 0,
             },
           ],
     [selectedSeries]

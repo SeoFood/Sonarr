@@ -79,6 +79,7 @@ export interface SeasonType {
   name: string;
   type: string;
   seasonNumbers: number[];
+  episodeCount: number;
 }
 
 interface Series extends ModelBase {
